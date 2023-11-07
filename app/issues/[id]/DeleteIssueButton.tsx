@@ -11,6 +11,12 @@ import { useRouter } from 'next/navigation';
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
+
+  async function deleteHandler() {
+    await axios.delete('/api/issues/' + issueId);
+    router.push('/issues');
+    router.refresh();
+  }
   return (
     <div>
       <AlertDialog.Root>
@@ -29,14 +35,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button
-                color="red"
-                onClick={async () => {
-                  await axios.delete('/api/issues/' + issueId);
-                  router.push('/issues');
-                  router.refresh();
-                }}
-              >
+              <Button color="red" onClick={deleteHandler}>
                 {' '}
                 Delete Issue
               </Button>
