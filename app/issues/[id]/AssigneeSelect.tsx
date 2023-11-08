@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const {
@@ -18,19 +19,20 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     staleTime: 60 * 1000,
     retry: 3,
   });
-  function issueAssignedHandler(userId: string) {
+  async function issueAssignedHandler(userId: string) {
     try {
       if (userId === 'Unassigned')
-        axios.patch(`/api/issues/${issue.id}`, {
+        await axios.patch(`/api/issues/${issue.id}`, {
           assignedToUserId: null,
         });
       else {
-        axios.patch(`/api/issues/${issue.id}`, {
+        await axios.patch(`/api/issues/${issue.id}`, {
           assignedToUserId: userId,
         });
       }
     } catch (error) {
       console.log(error);
+      toast.error('Changes could not be saved.');
     }
   }
   if (isLoading) return <Skeleton />;
@@ -54,6 +56,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
           </Select.Group>
         </Select.Content>
       </Select.Root>
+      <Toaster></Toaster>
     </div>
   );
 };
