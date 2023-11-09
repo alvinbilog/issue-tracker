@@ -18,6 +18,9 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
   const searchParams = useSearchParams();
 
   const pageCount = Math.ceil(itemCount / pageSize);
+  console.log('itemCount', itemCount);
+  console.log('pageSize', pageSize);
+  console.log('pageCount', pageCount);
   if (pageCount <= 1) return null;
 
   const changePage = (page: number) => {
@@ -29,7 +32,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
   return (
     <Flex align="center" gap="2">
       <Text size="2">
-        Page {currentPage} of {pageSize}
+        Page {currentPage} of {pageCount}
       </Text>
       <Button
         color="gray"
