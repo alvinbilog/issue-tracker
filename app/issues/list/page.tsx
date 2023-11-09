@@ -21,7 +21,13 @@ const IssuesPage = async ({
     { label: 'Status', value: 'status', className: 'hidden md:table-cell' },
     { label: 'Created', value: 'createdAt', className: 'hidden md:table-cell' },
   ];
-  console.log('searchParams.orderBy', searchParams.orderBy);
+
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: 'asc' }
+    : undefined;
+
   let issues;
   if (
     searchParams.status === 'OPEN' ||
@@ -32,9 +38,13 @@ const IssuesPage = async ({
       where: {
         status: searchParams.status,
       },
+      orderBy,
     });
   } else {
-    issues = await prisma.issue.findMany(); // Fetch all issues
+    issues = await prisma.issue.findMany({
+      where: {},
+      orderBy,
+    }); // Fetch all issues
   }
 
   return (
