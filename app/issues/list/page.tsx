@@ -25,7 +25,7 @@ const IssuesPage = async ({
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
   const issueCount = await prisma.issue.count({ where });
-  console.log('issueCount', issueCount);
+
   if (
     searchParams.status === 'OPEN' ||
     searchParams.status === 'CLOSED' ||
